@@ -158,6 +158,7 @@ def run_import(xml_path, csv_path):
                 print "cannot import data. header row is missing"
     except IOError as e:
         print "I/O error({0}): {1}".format(e.errno, e.strerror)
+        backup(backup_path, xml_path)
     except:
         print "Unexpected error:", sys.exc_info()[0]
         backup(backup_path, xml_path)

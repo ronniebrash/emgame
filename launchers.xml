@@ -1,0 +1,22 @@
+<advanced_launcher version="1.0">
+        <categories>
+                <category>
+                        <id>default</id>
+                        <name>Default</name>
+                        <thumb />
+                        <fanart />
+                        <genre />
+                        <description />
+                        <finished>false</finished>
+                </category>
+                <category>
+                        <id>f8f45febbf5881de8e373f48c8bf81dc</id>
+                        <name>Games</name>
+                        <thumb />
+                        <fanart />
+                        <genre />
+                        <description />
+                        <finished>false</finished>
+                </category>
+        </categories>
+        <launchers><launcher><id>e44d87d00bc911e5b4a8002219261fc2</id><finished>false</finished><minimize>false</minimize><category>f8f45febbf5881de8e373f48c8bf81dc</category><!--Generated element for Dust: An Elysian Tail--><name>Dust: An Elysian Tail</name><application>/home/hani/LibraryGames/dustaet/DustAET.bin.x86_64</application><args /><rompath /><tumbpath>/home/hani/Desktop/thumbnail/</tumbpath><fanartpath>/home/hani/Desktop/fanart/</fanartpath><trailerpath /><custompath /><romext /><platform>Linux</platform><thumb>/home/hani/Desktop/thumbnail/Dust_an_Elysian_Tail_Boxart.png</thumb><fanart>/home/hani/Desktop/fanart/dust.jpg</fanart><genre>Action / Platform / Role-Playing</genre><release>2013</release><publisher>Humble Hearts</publisher><launcherplot>Immerse yourself in a gorgeous hand-painted world on a search for your true identity. As the mysterious warrior, Dust, your action-packed journey will take you from peaceful glades to snowy mountaintops and beyond. At your disposal is the mythical Blade of Ahrah, capable of turning its wielder into an unstoppable force of nature, and the blade's diminutive guardian, Fidget. Battle dozens of enemies at once with an easy-to-learn, difficult-to-master combat system, take on a variety of quests from friendly villagers, discover ancient secrets and powerful upgrades hidden throughout the massive, open world, and uncover the story of an ancient civilization on the brink of extinction as you fight to uncover your own past.</launcherplot><lnk /><roms /></launcher><launcher><id>e44db4300bc911e5b4a8002219261fc2</id><finished>false</finished><minimize>false</minimize><category>f8f45febbf5881de8e373f48c8bf81dc</category><!--Generated element for Fez--><name>Fez</name><application>/home/a_krutau/fez/FEZ.bin.x86_64</application><args /><rompath /><tumbpath>/home/hani/Desktop/thumbnail/</tumbpath><fanartpath>/home/hani/Desktop/fanart/</fanartpath><trailerpath /><custompath /><romext /><platform /><thumb>/home/hani/Desktop/thumbnail/FEZ.exe_thumb.png</thumb><fanart>/home/hani/Desktop/fanart/FEZ.exe_fanart.png</fanart><genre>Platform / Puzzle</genre><release>2013</release><publisher>Polytron</publisher><launcherplot>Gomez is a 2D creature living in a 2D world. Or is he? When the existence of a mysterious 3rd dimension is revealed to him, Gomez is sent out on a journey that will take him to the very end of time and space. Use your ability to navigate 3D structures from 4 distinct classic 2D perspectives. Explore a serene and beautiful open-ended world full of secrets, puzzles and hidden treasures. Unearth the mysteries of the past and discover the truth about reality and perception, in this phenomenal puzzle-platformer!</launcherplot><lnk /><roms /></launcher><launcher><id>e44ddb720bc911e5b4a8002219261fc2</id><finished>false</finished><minimize>false</minimize><category>f8f45febbf5881de8e373f48c8bf81dc</category><!--Generated element for SteamWorldDig--><name>SteamWorldDig</name><application>/home/hani/LibraryGames/SteamWorldDig/SteamWorldDig</application><args /><rompath /><tumbpath>/home/hani/Desktop/thumbnail/</tumbpath><fanartpath>/home/hani/Desktop/fanart/</fanartpath><trailerpath /><custompath /><romext /><platform /><thumb>/home/hani/Desktop/thumbnail/SteamWorldDig_thumb.png</thumb><fanart>/home/hani/Desktop/fanart/SteamWorldDig_fanart.jpg</fanart><genre /><release /><publisher /><launcherplot /><lnk /><roms /></launcher></launchers></advanced_launcher>
