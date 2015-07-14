@@ -183,6 +183,3 @@ def main(argv):
 #'/home/a_krutau/game_info.csv'
 if ( __name__ == "__main__" ):
     main(sys.argv[1:])
-
-
-
