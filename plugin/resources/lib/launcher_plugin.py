@@ -106,7 +106,7 @@ def update_launchers_xml():
                 xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
                                                                 sys.exc_info()[0]), 3000)
 @run_once
-def cleanup_locks(self):
+def cleanup_locks():
         if os.path.exists(LOCK_FILE_PATH):
             os.remove(LOCK_FILE_PATH)
 # Main code
