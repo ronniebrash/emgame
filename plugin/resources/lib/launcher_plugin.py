@@ -263,7 +263,7 @@ class Main:
                 else:
                     self._get_categories()
 
-    def _update_launchers_xml():
+    def _update_launchers_xml(self):
         from os.path import expanduser
 
         csv_path = os.path.join(expanduser('~'), 'game.data/game_info.csv')
@@ -274,7 +274,7 @@ class Main:
                 xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
                                                                 sys.exc_info()[0]), 3000)
 
-    def _cleanup_locks():
+    def _cleanup_locks(self):
         if os.path.exists(LOCK_FILE_PATH):
             os.remove(LOCK_FILE_PATH)
 
