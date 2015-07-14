@@ -1826,8 +1826,9 @@ class Main:
                         elif (sys.platform.startswith('linux')):
                             if (self.settings["lirc_state"]):
                                 xbmc.executebuiltin('LIRC.stop')
-                            myDir = os.getcwd()
-                            fName = myDir + "/gameinprog"
+                            # myDir = os.getcwd()
+                            # fName = myDir + "/gameinprog"
+                            fName = LOCK_FILE_PATH
                             if not os.path.exists(fName):
                                 try:
                                     f = open(fName, 'a')
