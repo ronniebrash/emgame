@@ -20,6 +20,7 @@ from operator import itemgetter
 
 import xbmc, xbmcgui, xbmcplugin
 from xbmcaddon import Addon
+from setuptools.command.upload_docs import upload_docs
 
 import subprocess_hack
 from user_agent import getUserAgent
@@ -81,31 +82,24 @@ __settings__ = Addon(id="plugin.program.advanced.launcher")
 __lang__ = __settings__.getLocalizedString
 
 LOCK_FILE_PATH = os.path.join(PLUGIN_DATA_PATH, "gameinprog")
-
+update_xml_flag = 0
 
 def __language__(string):
     return __lang__(string).encode('utf-8', 'ignore')
 
-def run_once(f):
-    def wrapper(*args, **kwargs):
-        if not wrapper.has_run:
-            wrapper.has_run = True
-            return f(*args, **kwargs)
-    wrapper.has_run = False
-    return wrapper
 
-@run_once
 def update_launchers_xml():
         from os.path import expanduser
-
-        csv_path = os.path.join(expanduser('~'), os.path.join('game.data', 'game_info.csv'))
-        if os.path.exists(csv_path):
-            try:
-                xml_writer.run_import(BASE_CURRENT_SOURCE_PATH, csv_path)
-            except:
-                xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
+        global update_xml_flag
+        if update_xml_flag == 0:
+            update_xml_flag = 1
+            csv_path = os.path.join(expanduser('~'), os.path.join('game.data', 'game_info.csv'))
+            if os.path.exists(csv_path):
+                try:
+                    xml_writer.run_import(BASE_CURRENT_SOURCE_PATH, csv_path)
+                except:
+                    xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
                                                                 sys.exc_info()[0]), 3000)
-@run_once
 def cleanup_locks():
         if os.path.exists(LOCK_FILE_PATH):
             os.remove(LOCK_FILE_PATH)

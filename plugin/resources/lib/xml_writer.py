@@ -16,18 +16,18 @@ from os.path import expanduser
 
 # CATEGORY = 'f8f45febbf5881de8e373f48c8bf81dc'
 HOME_DIR = expanduser('~')
-LAUNCHERS_DATA_PATH = HOME_DIR + '/.kodi/userdata/addon_data/plugin.program.advanced.launcher/launchers.xml'
-GAME_DATA_PATH = HOME_DIR + '/game.data'
-LAUNCHERS_PATH = GAME_DATA_PATH + '/launchers'
-THUMBNAILS_PATH = GAME_DATA_PATH + '/thumbnails'
+LAUNCHERS_DATA_PATH = os.path.join(HOME_DIR, '.kodi/userdata/addon_data/plugin.program.advanced.launcher/launchers.xml')
+GAME_DATA_PATH = os.path.join(HOME_DIR, 'game.data')
+LAUNCHERS_PATH = os.path.join(GAME_DATA_PATH, 'launchers')
+THUMBNAILS_PATH = os.path.join(GAME_DATA_PATH, 'thumbnails')
 
-thumbnails_ext_list = ['.png', '.jpeg']
+thumbnails_ext_list = ['.png', '.jpeg', '.jpg']
 
 cur_launcher_path = ''
 
 def get_launch_dir(game_name, value):
     str = ''
-    path = LAUNCHERS_PATH + '/' + value
+    path = os.path.join(LAUNCHERS_PATH, value)
     if os.path.exists(path):
         str = path
 
@@ -42,7 +42,7 @@ def get_launch_dir(game_name, value):
 def get_app_path(game_name, value):
     str = ''
     global cur_launcher_path
-    path = cur_launcher_path + '/' + value
+    path = os.path.join(cur_launcher_path, value)
     if os.path.isfile(path):
         str = path
     else:
@@ -51,7 +51,7 @@ def get_app_path(game_name, value):
 
 def get_thumb_path(game_name, value):
     str = ''
-    path = THUMBNAILS_PATH + '/' + game_name
+    path = os.path.join(THUMBNAILS_PATH, game_name)
     for ext in thumbnails_ext_list:
         if os.path.isfile(path + ext):
             str = path + ext
@@ -173,7 +173,7 @@ def main(argv):
    if len(argv) < 2:
        #get home directory
        # home_dir = expanduser('~')
-       inputfile = GAME_DATA_PATH + '/game_info.csv'
+       inputfile = os.path.join(GAME_DATA_PATH, 'game_info.csv')
        outputfile = LAUNCHERS_DATA_PATH
    else:
         inputfile = argv[1]
