@@ -86,7 +86,29 @@ LOCK_FILE_PATH = os.path.join(PLUGIN_DATA_PATH, "gameinprog")
 def __language__(string):
     return __lang__(string).encode('utf-8', 'ignore')
 
+def run_once(f):
+    def wrapper(*args, **kwargs):
+        if not wrapper.has_run:
+            wrapper.has_run = True
+            return f(*args, **kwargs)
+    wrapper.has_run = False
+    return wrapper
 
+@run_once
+def update_launchers_xml():
+        from os.path import expanduser
+
+        csv_path = os.path.join(expanduser('~'), os.path.join('game.data', 'game_info.csv'))
+        if os.path.exists(csv_path):
+            try:
+                xml_writer.run_import(BASE_CURRENT_SOURCE_PATH, csv_path)
+            except:
+                xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
+                                                                sys.exc_info()[0]), 3000)
+@run_once
+def cleanup_locks(self):
+        if os.path.exists(LOCK_FILE_PATH):
+            os.remove(LOCK_FILE_PATH)
 # Main code
 
 class Main:
@@ -94,7 +116,7 @@ class Main:
     categories = {}
 
     def __init__(self, *args, **kwargs):
-        self._cleanup_locks()
+        cleanup_locks()
         # store an handle pointer
         self._handle = int(sys.argv[1])
         self._path = sys.argv[0]
@@ -102,7 +124,8 @@ class Main:
         self._get_settings()
 
         # update xml
-        self._update_launchers_xml()
+
+        update_launchers_xml()
 
         # Load launchers
         self._load_launchers(self.get_xml_source(BASE_CURRENT_SOURCE_PATH))
@@ -262,21 +285,6 @@ class Main:
                     self._get_launchers('default')
                 else:
                     self._get_categories()
-
-    def _update_launchers_xml(self):
-        from os.path import expanduser
-
-        csv_path = os.path.join(expanduser('~'), 'game.data/game_info.csv')
-        if os.path.exists(csv_path):
-            try:
-                xml_writer.run_import(BASE_CURRENT_SOURCE_PATH, csv_path)
-            except:
-                xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
-                                                                sys.exc_info()[0]), 3000)
-
-    def _cleanup_locks(self):
-        if os.path.exists(LOCK_FILE_PATH):
-            os.remove(LOCK_FILE_PATH)
 
     def _empty_cat(self, categoryID):
         empty_category = True
