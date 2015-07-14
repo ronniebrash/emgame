@@ -106,9 +106,11 @@ class Main:
     categories = {}
 
     def __init__(self, *args, **kwargs):
-        # cleanup_locks()
         # store an handle pointer
         self._handle = int(sys.argv[1])
+        if (self._handle > 0):
+			cleanup_locks()
+			update_launchers_xml()
         self._path = sys.argv[0]
         # get users preference
         self._get_settings()
@@ -136,7 +138,6 @@ class Main:
         param = sys.argv[2].replace("%2f", "/")
 
         if (self._handle > 0):
-            print("*****************************self._handle > 0")
             xbmcplugin.addSortMethod(handle=self._handle, sortMethod=xbmcplugin.SORT_METHOD_LABEL)
             xbmcplugin.addSortMethod(handle=self._handle, sortMethod=xbmcplugin.SORT_METHOD_VIDEO_YEAR)
             xbmcplugin.addSortMethod(handle=self._handle, sortMethod=xbmcplugin.SORT_METHOD_STUDIO)
@@ -145,14 +146,12 @@ class Main:
 
         # If parameters are passed...
         if param:
-            print("*****************************param")
             param = param[1:]
             command = param.split(COMMAND_ARGS_SEPARATOR)
             command_part = command[0].split("/")
 
             # check the action needed
             if (len(command_part) == 4):
-                print("*****************************command_part == 4")
                 category = command_part[0]
                 launcher = command_part[1]
                 rom = command_part[2]
@@ -172,7 +171,6 @@ class Main:
                     self._scrap_fanart_rom(launcher, rom)
 
             if (len(command_part) == 3):
-                print("*****************************command_part == 3")
                 category = command_part[0]
                 launcher = command_part[1]
                 rom = command_part[2]
@@ -197,7 +195,6 @@ class Main:
                     self._run_rom(launcher, rom)
 
             if (len(command_part) == 2):
-                print("*****************************command_part == 2")
                 category = command_part[0]
                 launcher = command_part[1]
 
@@ -236,7 +233,6 @@ class Main:
                         self._get_roms(launcher)
 
             if (len(command_part) == 1):
-                print("*****************************command_part == 1")
                 category = command_part[0]
                 self._print_log(__language__(30740) % category)
 
