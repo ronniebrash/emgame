@@ -20,7 +20,6 @@ from operator import itemgetter
 
 import xbmc, xbmcgui, xbmcplugin
 from xbmcaddon import Addon
-from setuptools.command.upload_docs import upload_docs
 
 import subprocess_hack
 from user_agent import getUserAgent
@@ -82,7 +81,7 @@ __settings__ = Addon(id="plugin.program.advanced.launcher")
 __lang__ = __settings__.getLocalizedString
 
 LOCK_FILE_PATH = os.path.join(PLUGIN_DATA_PATH, "gameinprog")
-update_xml_flag = 0
+KODI_RUNNING_FILE_PATH = os.path.join(PLUGIN_DATA_PATH, "kodirunning")
 
 def __language__(string):
     return __lang__(string).encode('utf-8', 'ignore')
@@ -90,15 +89,12 @@ def __language__(string):
 
 def update_launchers_xml():
         from os.path import expanduser
-        global update_xml_flag
-        if update_xml_flag == 0:
-            update_xml_flag = 1
-            csv_path = os.path.join(expanduser('~'), os.path.join('game.data', 'game_info.csv'))
-            if os.path.exists(csv_path):
-                try:
-                    xml_writer.run_import(BASE_CURRENT_SOURCE_PATH, csv_path)
-                except:
-                    xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
+        csv_path = os.path.join(expanduser('~'), os.path.join('game.data', 'game_info.csv'))
+        if os.path.exists(csv_path):
+            try:
+                xml_writer.run_import(BASE_CURRENT_SOURCE_PATH, csv_path)
+            except:
+                xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
                                                                 sys.exc_info()[0]), 3000)
 def cleanup_locks():
         if os.path.exists(LOCK_FILE_PATH):
@@ -110,7 +106,7 @@ class Main:
     categories = {}
 
     def __init__(self, *args, **kwargs):
-        cleanup_locks()
+        # cleanup_locks()
         # store an handle pointer
         self._handle = int(sys.argv[1])
         self._path = sys.argv[0]
@@ -119,7 +115,7 @@ class Main:
 
         # update xml
 
-        update_launchers_xml()
+        # update_launchers_xml()
 
         # Load launchers
         self._load_launchers(self.get_xml_source(BASE_CURRENT_SOURCE_PATH))
@@ -3313,6 +3309,8 @@ class MainGui(xbmcgui.WindowXMLDialog):
 
     def onInit(self):
         try:
+            cleanup_locks()
+            update_launchers_xml()
             self.img_list = self.getControl(6)
             self.img_list.controlLeft(self.img_list)
             self.img_list.controlRight(self.img_list)
