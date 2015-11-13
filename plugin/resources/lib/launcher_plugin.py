@@ -26,7 +26,9 @@ from user_agent import getUserAgent
 from file_item import Thumbnails
 from xml.dom.minidom import parse
 import xml_writer
+from aux import getLogger
 
+log = getLogger("launcher.log")
 # Dharma compatibility (import md5)
 try:
     import hashlib
@@ -76,6 +78,8 @@ SEARCH_STUDIO_COMMAND = "%%SEARCH_STUDIO%%"
 SEARCH_GENRE_COMMAND = "%%SEARCH_GENRE%%"
 SCAN_NEW_ITEM_COMMAND = "%%SCAN_NEW_ITEM%%"
 
+
+
 # Locales parameters
 __settings__ = Addon(id="plugin.program.advanced.launcher")
 __lang__ = __settings__.getLocalizedString
@@ -89,11 +93,14 @@ def __language__(string):
 
 def update_launchers_xml():
         from os.path import expanduser
+
         csv_path = os.path.join(expanduser('~'), os.path.join('game.data', 'game_info.csv'))
         if os.path.exists(csv_path):
             try:
                 xml_writer.run_import(BASE_CURRENT_SOURCE_PATH, csv_path)
             except:
+                log.error(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
+                                                                sys.exc_info()[0]))
                 xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
                                                                 sys.exc_info()[0]), 3000)
 def cleanup_locks():
@@ -108,6 +115,7 @@ class Main:
     def __init__(self, *args, **kwargs):
         # store an handle pointer
         self._handle = int(sys.argv[1])
+        __settings__.openSettings()
         if (self._handle > 0):
 			cleanup_locks()
 			update_launchers_xml()

@@ -12,14 +12,15 @@ import uuid
 import sys
 import shutil
 import os.path
+from aux import getLogger
+from aux import HOME_DIR, LAUNCHERS_DATA_PATH, THUMBNAILS_PATH, LAUNCHERS_PATH, GAME_DATA_PATH
+
 from os.path import expanduser
 
+log = getLogger("launcher.log")
+
 # CATEGORY = 'f8f45febbf5881de8e373f48c8bf81dc'
-HOME_DIR = expanduser('~')
-LAUNCHERS_DATA_PATH = os.path.join(HOME_DIR, '.kodi/userdata/addon_data/plugin.program.advanced.launcher/launchers.xml')
-GAME_DATA_PATH = os.path.join(HOME_DIR, 'game.data')
-LAUNCHERS_PATH = os.path.join(GAME_DATA_PATH, 'launchers')
-THUMBNAILS_PATH = os.path.join(GAME_DATA_PATH, 'thumbnails')
+
 
 thumbnails_ext_list = ['.png', '.jpeg', '.jpg']
 
@@ -30,14 +31,11 @@ def get_launch_dir(game_name, value):
     path = os.path.join(LAUNCHERS_PATH, value)
     if os.path.exists(path):
         str = path
-
     else:
-        print "couldn't find {0}".format(path)
+        log.error("couldn't find {0}".format(path))
     global cur_launcher_path
     cur_launcher_path = str
     return str
-
-
 
 def get_app_path(game_name, value):
     str = ''
@@ -46,7 +44,7 @@ def get_app_path(game_name, value):
     if os.path.isfile(path):
         str = path
     else:
-        print "couldn't find {0}".format(path)
+        log.error("couldn't find {0}".format(path))
     return str
 
 def get_thumb_path(game_name, value):
@@ -57,7 +55,7 @@ def get_thumb_path(game_name, value):
             str = path + ext
             break
     if len(str) == 0:
-        print "unable to find thumbnail for {0}".format(game_name)
+        log.error("unable to find thumbnail for {0}".format(game_name))
     return str
 
 
@@ -80,12 +78,12 @@ def prettify(elem):
 
 def backup(src, dst):
     retVal = 0
-    print "copying from {0} to {1}".format(src, dst)
+    log.info("copying from {0} to {1}".format(src, dst))
     try:
         if os.path.isfile(src):
             shutil.copyfile(src, dst)
     except IOError as e:
-        print "I/O error({0}): {1}".format(e.errno, e.strerror)
+        log.error("I/O error({0}): {1}".format(e.errno, e.strerror))
         retVal = 1
     return retVal
 
@@ -122,22 +120,18 @@ def find_child_val(root, tag):
             return find_child_val(child, tag)
 
 def run_import(xml_path, csv_path):
-    # category = CATEGORY
     #create backup
     backup_path = xml_path + '.bckp'
     if backup(xml_path, backup_path) != 0:
         return
     #start import
     tree = ET.parse(xml_path)
-
     root = tree.getroot()
-
     for child in root:
         if child.tag == 'categories':
-            category_id = 0
             category_id = find_child_val(child, 'id')
             if category_id == 0:
-                print "unable to find games category"
+                log.error("unable to find games category")
                 return
         if child.tag == 'launchers':
             root.remove(child)
@@ -152,15 +146,15 @@ def run_import(xml_path, csv_path):
                     add_launcher(row, root, headers, category_id)
                     #set_attributes(row, root)
                     cnt += 1
-                print "{0} rows were imported".format(cnt)
+                log.info("{0} rows were imported".format(cnt))
                 tree.write(xml_path)
             else:
-                print "cannot import data. header row is missing"
+                log.info("cannot import data. header row is missing")
     except IOError as e:
-        print "I/O error({0}): {1}".format(e.errno, e.strerror)
+        log.error("I/O error({0}): {1}".format(e.errno, e.strerror))
         backup(backup_path, xml_path)
     except:
-        print "Unexpected error:", sys.exc_info()[0]
+        log.error("Unexpected error:", sys.exc_info()[0])
         backup(backup_path, xml_path)
             #print(prettify(orig_root))
     else:
