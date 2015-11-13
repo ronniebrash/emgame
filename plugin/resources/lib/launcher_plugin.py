@@ -115,7 +115,6 @@ class Main:
     def __init__(self, *args, **kwargs):
         # store an handle pointer
         self._handle = int(sys.argv[1])
-        __settings__.openSettings()
         if (self._handle > 0):
 			cleanup_locks()
 			update_launchers_xml()
