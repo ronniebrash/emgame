@@ -115,6 +115,10 @@ class Main:
     def __init__(self, *args, **kwargs):
         # store an handle pointer
         self._handle = int(sys.argv[1])
+        from aux import MyClass
+        mydisplay = MyClass()
+        mydisplay.doModal()
+        del mydisplay
         if (self._handle > 0):
 			cleanup_locks()
 			update_launchers_xml()

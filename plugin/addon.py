@@ -18,8 +18,4 @@ __version__ = "2.5.8"
 
 if ( __name__ == "__main__" ):
     import resources.lib.launcher_plugin as plugin
-    import resources.lib.aux as aux
-    mydisplay = aux.MyClass()
-    mydisplay.doModal()
-    del mydisplay
     plugin.Main()
