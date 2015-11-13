@@ -27,6 +27,7 @@ from file_item import Thumbnails
 from xml.dom.minidom import parse
 import xml_writer
 from aux import getLogger
+from aux import MyClass
 
 log = getLogger("launcher.log")
 # Dharma compatibility (import md5)
@@ -115,7 +116,6 @@ class Main:
     def __init__(self, *args, **kwargs):
         # store an handle pointer
         self._handle = int(sys.argv[1])
-        from aux import MyClass
         mydisplay = MyClass()
         mydisplay.doModal()
         del mydisplay

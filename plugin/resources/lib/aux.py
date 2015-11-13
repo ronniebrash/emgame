@@ -28,10 +28,10 @@ ACTION_PREVIOUS_MENU = 10
 
 class MyClass(xbmcgui.Window):
   def __init__(self):
-    self.strActionInfo = xbmcgui.ControlLabel(150, 100, 100, '', 'font14', '0xFFBBBBFF')
+    self.strActionInfo = xbmcgui.ControlLabel(250, 80, 200, 200, '', 'font14', '0xFFBBBBFF')
     self.addControl(self.strActionInfo)
     self.strActionInfo.setLabel('Push BACK to quit')
-    self.list = xbmcgui.ControlList(100, 50, 200, 300)
+    self.list = xbmcgui.ControlList(200, 150, 300, 400)
     self.addControl(self.list)
     self.list.addItem('English')
     self.list.addItem('French')
