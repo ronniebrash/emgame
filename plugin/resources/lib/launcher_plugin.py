@@ -117,9 +117,9 @@ class Main:
         # store an handle pointer
         self._handle = int(sys.argv[1])
         if (self._handle > 0):
-            mydisplay = MyClass()
-            mydisplay.doModal()
-            del mydisplay
+            # mydisplay = MyClass()
+            # mydisplay.doModal()
+            # del mydisplay
 			cleanup_locks()
 			update_launchers_xml()
         self._path = sys.argv[0]
