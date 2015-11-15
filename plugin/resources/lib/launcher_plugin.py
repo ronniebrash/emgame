@@ -94,7 +94,6 @@ def __language__(string):
 
 def update_launchers_xml():
         from os.path import expanduser
-
         csv_path = os.path.join(expanduser('~'), os.path.join('game.data', 'game_info.csv'))
         if os.path.exists(csv_path):
             try:
