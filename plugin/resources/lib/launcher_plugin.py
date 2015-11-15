@@ -27,7 +27,7 @@ from file_item import Thumbnails
 from xml.dom.minidom import parse
 import xml_writer
 from aux import getLogger
-from aux import MyClass
+import sys
 
 log = getLogger("launcher.log")
 # Dharma compatibility (import md5)
@@ -93,6 +93,8 @@ def __language__(string):
 
 
 def update_launchers_xml():
+        if not update_required():
+            return
         from os.path import expanduser
         csv_path = os.path.join(expanduser('~'), os.path.join('game.data', 'game_info.csv'))
         if os.path.exists(csv_path):
@@ -101,11 +103,17 @@ def update_launchers_xml():
             except:
                 log.error(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
                                                                 sys.exc_info()[0]))
-                xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
-                                                                sys.exc_info()[0]), 3000)
+                # xbmc_notify(__language__(30000), "{0}: {1}. {2}".format(__language__(30612), __language__(30603), \
+                #                                                 sys.exc_info()[0]), 3000)
+
 def cleanup_locks():
         if os.path.exists(LOCK_FILE_PATH):
             os.remove(LOCK_FILE_PATH)
+
+def update_required():
+    #TODO: Implement logic
+    return True
+
 # Main code
 
 class Main:
@@ -113,14 +121,15 @@ class Main:
     categories = {}
 
     def __init__(self, *args, **kwargs):
+        cleanup_locks()
         # store an handle pointer
         self._handle = int(sys.argv[1])
-        if (self._handle > 0):
+        # if (self._handle > 0):
             # mydisplay = MyClass()
             # mydisplay.doModal()
             # del mydisplay
-			cleanup_locks()
-			update_launchers_xml()
+            # cleanup_locks()
+            # update_launchers_xml()
         self._path = sys.argv[0]
         # get users preference
         self._get_settings()
@@ -2118,6 +2127,7 @@ class Main:
                                 __language__(30611) % os.path.basename(launcher["application"]), 3000)
 
     def get_xml_source(self, xmlpath):
+        log.info("read launchers xml from {0}".format(xmlpath))
         try:
             usock = open(xmlpath, 'r')
             # read source
@@ -2127,6 +2137,7 @@ class Main:
             ok = True
         except:
             xbmc_notify(__language__(30000) + " - " + __language__(30612), __language__(30602), 3000)
+            log.error("can't read xml file. error {0}".format(sys.exc_info()[0]))
             ok = False
         if (ok):
             # clean and return the xml string
@@ -2247,6 +2258,11 @@ class Main:
 
     def _load_launchers(self, xmlSource):
         self._print_log(__language__(30747))
+        update_launchers_xml()
+        if(len(xmlSource) > 0):
+            log.info("extracting launchers")
+        else:
+            log.info("empty string received")
         # clean, save and return the xml string
         xmlSource = xmlSource.replace("&amp;", "&").replace('\r', '').replace('\n', '').replace('\t', '')
         # Get categories list from XML source
@@ -2274,6 +2290,7 @@ class Main:
                                           "plot": "", "finished": "false"}
         # Get launchers list from XML source
         xml_launchers = re.findall("<launchers>(.*?)</launchers>", xmlSource)
+        log.info("{0} launchers found".format(len(xml_launchers)))
         # If launchers exist ()...
         if len(xml_launchers) > 0:
             launchers = re.findall("<launcher>(.*?)</launcher>", xml_launchers[0])
@@ -2348,8 +2365,10 @@ class Main:
         xbmcplugin.endOfDirectory(handle=int(self._handle), succeeded=True, cacheToDisc=False)
 
     def _get_launchers(self, categoryID):
+        log.info("adding launchers to menu")
         for key in sorted(self.launchers, key=lambda x: self.launchers[x]["application"]):
             if (self.launchers[key]["category"] == categoryID):
+                log.info("adding {0}".format(self.launchers[key]["name"]))
                 self._add_launcher(self.launchers[key]["name"], self.launchers[key]["category"],
                                    self.launchers[key]["application"], self.launchers[key]["rompath"],
                                    self.launchers[key]["thumbpath"], self.launchers[key]["fanartpath"],
@@ -2883,6 +2902,7 @@ class Main:
                           "overlay": ICON_OVERLAY})
         listitem.addContextMenuItems(commands)
         if (finished != "true") or (self.settings["hide_finished"] == False):
+            log.info("adding directory item {0}: cmd {1}, thumb path {2}, fanart path {3}".format(name, cmd, thumb, fanart))
             xbmcplugin.addDirectoryItem(handle=int(self._handle), url="%s?%s/%s" % (self._path, category, key),
                                         listitem=listitem, isFolder=folder)
 
