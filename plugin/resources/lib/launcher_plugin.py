@@ -95,14 +95,16 @@ def __language__(string):
 def update_launchers_xml():
         if not update_required():
             return
-        language = xbmcplugin.getSetting(int(sys.argv[1]), "language")
-        log.info("default language: {0}".format(language))
-        if language == '':
-        __settings__.openSettings()
-        language = xbmcplugin.getSetting(int(sys.argv[1]), "language")
-        log.info("user selected language: {0}".format(language))
-        if language == '':
-            language = 0
+        log.info("start update")
+        # language = xbmcplugin.getSetting(int(sys.argv[1]), "language")
+        # log.info("default language: {0}".format(language))
+        # if language == '':
+        # __settings__.openSettings()
+        # language = xbmcplugin.getSetting(int(sys.argv[1]), "language")
+        # log.info("user selected language: {0}".format(language))
+        # if language == '':
+        #     language = 0
+        language = 1
         from os.path import expanduser
         csv_path = os.path.join(expanduser('~'), os.path.join(os.path.join('game.data', languages[language]), 'game_info.csv'))
         if os.path.exists(csv_path):
