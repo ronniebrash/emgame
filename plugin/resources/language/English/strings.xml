@@ -291,4 +291,7 @@
     <string id="30745">Error: %s::%s (%d) - %s</string>
     <string id="30746">Save launchers.xml file</string>
     <string id="30747">Load launchers.xml file</string>
+    <string id="32020">Language</string>
+    <string id="32021">English</string>
+    <string id="32022">French</string>
 </strings>

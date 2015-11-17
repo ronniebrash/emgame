@@ -203,5 +203,7 @@
     <string id="30502">%s entrées supprimèes avec succés</string>
     <string id="30503">Non-trouvée</string>
     <string id="30512">Rechercher</string>
-
+    <string id="32020">Language</string>
+    <string id="32021">English</string>
+    <string id="32022">French</string>
 </strings>

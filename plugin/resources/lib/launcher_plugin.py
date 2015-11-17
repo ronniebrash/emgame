@@ -87,7 +87,7 @@ __lang__ = __settings__.getLocalizedString
 
 LOCK_FILE_PATH = os.path.join(PLUGIN_DATA_PATH, "gameinprog")
 KODI_RUNNING_FILE_PATH = os.path.join(PLUGIN_DATA_PATH, "kodirunning")
-
+languages = ['english', 'french']
 def __language__(string):
     return __lang__(string).encode('utf-8', 'ignore')
 
@@ -95,8 +95,16 @@ def __language__(string):
 def update_launchers_xml():
         if not update_required():
             return
+        language = xbmcplugin.getSetting(int(sys.argv[1]), "language")
+        log.info("default language: {0}".format(language))
+        if language == '':
+        __settings__.openSettings()
+        language = xbmcplugin.getSetting(int(sys.argv[1]), "language")
+        log.info("user selected language: {0}".format(language))
+        if language == '':
+            language = 0
         from os.path import expanduser
-        csv_path = os.path.join(expanduser('~'), os.path.join('game.data', 'game_info.csv'))
+        csv_path = os.path.join(expanduser('~'), os.path.join(os.path.join('game.data', languages[language]), 'game_info.csv'))
         if os.path.exists(csv_path):
             try:
                 xml_writer.run_import(BASE_CURRENT_SOURCE_PATH, csv_path)
@@ -3341,8 +3349,6 @@ class MainGui(xbmcgui.WindowXMLDialog):
 
     def onInit(self):
         try:
-            cleanup_locks()
-            update_launchers_xml()
             self.img_list = self.getControl(6)
             self.img_list.controlLeft(self.img_list)
             self.img_list.controlRight(self.img_list)
