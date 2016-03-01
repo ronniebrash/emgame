@@ -3,7 +3,8 @@ __author__ = 'akrutau'
 import logging
 import os.path
 from os.path import expanduser
-# import xbmc, xbmcgui
+import xbmc, xbmcgui
+from xbmcaddon import Addon
 
 HOME_DIR = expanduser('~')
 LAUNCHERS_DATA_PATH = os.path.join(HOME_DIR, '.kodi/userdata/addon_data/plugin.program.advanced.launcher/launchers.xml')
@@ -12,6 +13,7 @@ LAUNCHERS_PATH = os.path.join(GAME_DATA_PATH, 'launchers')
 THUMBNAILS_PATH = os.path.join(GAME_DATA_PATH, 'thumbnails')
 FORMAT = '[%(asctime)-15s][%(levelname)s][%(funcName)s] - %(message)s'
 
+LANGUAGES = ['English', 'French']
 DEBUG = False
 
 def getLogger(name):
@@ -51,3 +53,10 @@ ACTION_PREVIOUS_MENU = 10
 #   def message(self, message):
 #     dialog = xbmcgui.Dialog()
 #     dialog.ok(" My message title", message)
+def main(argv):
+	__settings__ = Addon(id="plugin.program.advanced.launcher")
+	__settings__.openSettings()
+	xbmc.executebuiltin("XBMC.ReloadSkin()")
+	
+if ( __name__ == "__main__" ):
+    main(sys.argv[1:])

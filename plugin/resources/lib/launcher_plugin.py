@@ -26,7 +26,7 @@ from user_agent import getUserAgent
 from file_item import Thumbnails
 from xml.dom.minidom import parse
 import xml_writer
-from aux import getLogger
+from aux import getLogger, LANGUAGES
 import sys
 
 log = getLogger("launcher.log")
@@ -87,7 +87,7 @@ __lang__ = __settings__.getLocalizedString
 
 LOCK_FILE_PATH = os.path.join(PLUGIN_DATA_PATH, "gameinprog")
 KODI_RUNNING_FILE_PATH = os.path.join(PLUGIN_DATA_PATH, "kodirunning")
-languages = ['english', 'french']
+# languages = ['English', 'French']
 def __language__(string):
     return __lang__(string).encode('utf-8', 'ignore')
 
@@ -95,18 +95,13 @@ def __language__(string):
 def update_launchers_xml():
         if not update_required():
             return
-        log.info("start update")
-        # language = xbmcplugin.getSetting(int(sys.argv[1]), "language")
-        # log.info("default language: {0}".format(language))
-        # if language == '':
-        # __settings__.openSettings()
-        # language = xbmcplugin.getSetting(int(sys.argv[1]), "language")
-        # log.info("user selected language: {0}".format(language))
-        # if language == '':
-        #     language = 0
-        language = 1
+        #__settings__.openSettings()
+        #language = 0
+        language = __settings__.getSetting("language")
+        #log.info("user selected language: {0}".format(language))
         from os.path import expanduser
-        csv_path = os.path.join(expanduser('~'), os.path.join(os.path.join('game.data', languages[language]), 'game_info.csv'))
+        csv_path = os.path.join(expanduser('~'), os.path.join(os.path.join('game.data', LANGUAGES[int(language)]), 'game_info.csv'))
+        #log.info("updating from {0}".format(csv_path))
         if os.path.exists(csv_path):
             try:
                 xml_writer.run_import(BASE_CURRENT_SOURCE_PATH, csv_path)
@@ -119,6 +114,8 @@ def update_launchers_xml():
 def cleanup_locks():
         if os.path.exists(LOCK_FILE_PATH):
             os.remove(LOCK_FILE_PATH)
+			
+
 
 def update_required():
     #TODO: Implement logic
@@ -131,15 +128,14 @@ class Main:
     categories = {}
 
     def __init__(self, *args, **kwargs):
-        cleanup_locks()
         # store an handle pointer
         self._handle = int(sys.argv[1])
-        # if (self._handle > 0):
+        if (self._handle > 0):
             # mydisplay = MyClass()
             # mydisplay.doModal()
             # del mydisplay
-            # cleanup_locks()
-            # update_launchers_xml()
+            cleanup_locks()
+            update_launchers_xml()
         self._path = sys.argv[0]
         # get users preference
         self._get_settings()
@@ -160,9 +156,7 @@ class Main:
         self._get_program_extensions = _emulators_data._get_program_extensions
         self._get_mame_title = _emulators_data._get_mame_title
         self._test_bios_file = _emulators_data._test_bios_file
-
         self._print_log(__language__(30700))
-
         # if a commmand is passed as parameter
         param = sys.argv[2].replace("%2f", "/")
 
@@ -306,6 +300,7 @@ class Main:
                     self._get_launchers('default')
                 else:
                     self._get_categories()
+        #set_app_status(1)
 
     def _empty_cat(self, categoryID):
         empty_category = True
@@ -1857,6 +1852,7 @@ class Main:
                                 xbmc.executebuiltin('LIRC.stop')
                             # myDir = os.getcwd()
                             # fName = myDir + "/gameinprog"
+                            #log.info("running launcher")
                             fName = LOCK_FILE_PATH
                             if not os.path.exists(fName):
                                 try:
@@ -2137,7 +2133,7 @@ class Main:
                                 __language__(30611) % os.path.basename(launcher["application"]), 3000)
 
     def get_xml_source(self, xmlpath):
-        log.info("read launchers xml from {0}".format(xmlpath))
+        #log.info("read launchers xml from {0}".format(xmlpath))
         try:
             usock = open(xmlpath, 'r')
             # read source
@@ -2268,11 +2264,6 @@ class Main:
 
     def _load_launchers(self, xmlSource):
         self._print_log(__language__(30747))
-        update_launchers_xml()
-        if(len(xmlSource) > 0):
-            log.info("extracting launchers")
-        else:
-            log.info("empty string received")
         # clean, save and return the xml string
         xmlSource = xmlSource.replace("&amp;", "&").replace('\r', '').replace('\n', '').replace('\t', '')
         # Get categories list from XML source
@@ -2300,7 +2291,7 @@ class Main:
                                           "plot": "", "finished": "false"}
         # Get launchers list from XML source
         xml_launchers = re.findall("<launchers>(.*?)</launchers>", xmlSource)
-        log.info("{0} launchers found".format(len(xml_launchers)))
+        #log.info("{0} launchers found".format(len(xml_launchers)))
         # If launchers exist ()...
         if len(xml_launchers) > 0:
             launchers = re.findall("<launcher>(.*?)</launcher>", xml_launchers[0])
@@ -2375,10 +2366,10 @@ class Main:
         xbmcplugin.endOfDirectory(handle=int(self._handle), succeeded=True, cacheToDisc=False)
 
     def _get_launchers(self, categoryID):
-        log.info("adding launchers to menu")
+        #log.info("adding launchers to menu")
         for key in sorted(self.launchers, key=lambda x: self.launchers[x]["application"]):
             if (self.launchers[key]["category"] == categoryID):
-                log.info("adding {0}".format(self.launchers[key]["name"]))
+                #log.info("adding {0}".format(self.launchers[key]["name"]))
                 self._add_launcher(self.launchers[key]["name"], self.launchers[key]["category"],
                                    self.launchers[key]["application"], self.launchers[key]["rompath"],
                                    self.launchers[key]["thumbpath"], self.launchers[key]["fanartpath"],
@@ -2386,7 +2377,7 @@ class Main:
                                    self.launchers[key]["romext"], self.launchers[key]["gamesys"],
                                    self.launchers[key]["thumb"], self.launchers[key]["fanart"],
                                    self.launchers[key]["genre"], self.launchers[key]["release"],
-                                   self.launchers[key]["studio"], self.launchers[key]["plot"],
+                                   self.launchers[key]["studio"], str(self.launchers[key]["plot"]).decode('utf-8'),
                                    self.launchers[key]["finished"], self.launchers[key]["lnk"],
                                    self.launchers[key]["minimize"], self.launchers[key]["roms"], len(self.launchers),
                                    key)
@@ -2912,7 +2903,6 @@ class Main:
                           "overlay": ICON_OVERLAY})
         listitem.addContextMenuItems(commands)
         if (finished != "true") or (self.settings["hide_finished"] == False):
-            log.info("adding directory item {0}: cmd {1}, thumb path {2}, fanart path {3}".format(name, cmd, thumb, fanart))
             xbmcplugin.addDirectoryItem(handle=int(self._handle), url="%s?%s/%s" % (self._path, category, key),
                                         listitem=listitem, isFolder=folder)
 

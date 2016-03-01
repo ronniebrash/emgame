@@ -95,45 +95,10 @@
 						<label>31144</label>
 						<onclick>XBMC.ShutDown()</onclick>
 					</item>
-					<item id="2"><!-- Presets do menu principal -->
-						<label>31165</label>
-						<onclick>Dialog.Close(111)</onclick>
-						<onclick>ActivateWindow(630)</onclick>
-						<visible>![IsEmpty(skin.string(preset1.on)) + IsEmpty(skin.string(preset2.on)) + IsEmpty(skin.string(preset3.on)) + IsEmpty(skin.string(preset4.on)) + IsEmpty(skin.string(preset5.on)) + IsEmpty(skin.string(preset6.on)) + IsEmpty(skin.string(preset7.on)) + IsEmpty(skin.string(preset8.on)) + IsEmpty(skin.string(preset9.on)) + IsEmpty(skin.string(preset10.on))] + Window.IsVisible(0)</visible>
-					</item>
 					<item id="15"><!-- Settings -->
 						<label>31011</label>
 						<onclick>Dialog.Close(111)</onclick>
-						<onclick>ActivateWindow(4)</onclick>
-					</item>
-					<item id="3"><!-- Home Visualiser Video -->
-						<label>$VAR[value_buttonmenu_video]</label>
-						<onclick>Skin.Togglesetting(homevisvideo)</onclick>
-						<visible>Window.IsActive(0)</visible>
-					</item>
-					<item id="4"><!-- Home Visualiser Audio -->
-						<label>$VAR[value_buttonmenu_audio]</label>
-						<onclick>Skin.Togglesetting(homevisaudio)</onclick>
-						<visible>Window.IsActive(0)</visible>
-					</item>
-					<item id="5"><!-- Now Playing - Playlist -->
-						<label>31035</label>
-						<icon>icon_button_nowplaying.png</icon>
-						<onclick>ActivateWindow(500)</onclick>
-					</item>
-					<item id="12"><!-- Eject Tray -->
-						<label>31742</label>
-						<onclick>EjectTray</onclick>
-					</item>
-					<item id="13"><!-- File Manager -->
-						<label>10003</label>
-						<onclick>Dialog.Close(111)</onclick>
-						<onclick>ActivateWindow(3)</onclick>
-					</item>
-					<item id="14"><!-- Favourites -->
-						<label>1036</label>
-						<onclick>Dialog.Close(111)</onclick>
-						<onclick>ActivateWindow(Favourites)</onclick>
+						<onclick>XBMC.RunScript(/home/emgame/.kodi/addons/plugin.program.advanced.launcher/resources/lib/aux.py, 1)</onclick>
 					</item>
 				</content>
 			</control>

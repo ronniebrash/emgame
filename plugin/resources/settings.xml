@@ -3,7 +3,7 @@
 
     <!--games scrapers-->
 
-    <category label="30126" visible="false">
+    <!--<category label="30126" visible="false">
         <setting id="separator" type="lsep" label="30174"/>
         <setting label="30158" type="bool" id="recursive_scan" default="true" />
         <setting label="30166" type="enum" id="datas_method" lvalues="30148|30167|30168|30169" default="0"/>
@@ -15,9 +15,9 @@
         <setting label="30159" type="bool" id="ignore_title" default="false"/>
         <setting label="30128" type="bool" id="clean_title" default="true" visible="eq(-1,false)"/>
         <setting label="30151" type="bool" id="title_formating" default="true" visible="eq(-2,false)"/>
-    </category>
+    </category>-->
 
-    <category label="30122" visible="false">
+    <!--<category label="30122" visible="false">
         <setting id="separator" type="lsep" label="30174"/>
         <setting label="30166" type="enum" id="thumbs_method" lvalues="30148|30172|30168" default="0"/>
         <setting label="30120" type="enum" id="scrap_thumbs" lvalues="30149|30150" default="0" visible="eq(-1,2)"/>
@@ -38,7 +38,7 @@
         <setting label="30135" type="enum" id="fanart_image_size" lvalues="30136|30137|30138|30139|30140|30141|30142|30143" default="0" visible="eq(-1,Google)"/>
         <setting label="30162" type="enum" id="select_fanarts" default="0" lvalues="30163|30164|30165"/>
         <setting label="30147" type="bool" id="overwrite_fanarts" default="false"/>
-    </category>
+    </category>-->
 
     <category label="30124">
         <setting id="separator" type="lsep" label="30193" visible="false"/>
@@ -58,7 +58,7 @@
         <setting label="32020" type="enum" id="language" lvalues="32021|32022" default="32022"/>
     </category>
 
-    <category label="30183" visible="false">
+    <!--<category label="30183" visible="false">
         <setting id="separator" type="lsep" label="30181"/>
         <setting label="30182" type="bool" id="auto_backup" default="true" />
         <setting label="30184" type="slider" id="nb_backup_files" default="10" range="5,5,100" option="int" visible="eq(-1,true)"/>
@@ -67,6 +67,6 @@
         <setting id="separator" type="lsep" label="30156"/>
         <setting label="30187" type="bool" id="show_log" default="true"/>
         <setting label="30157" type="bool" id="show_batch" default="false"/>
-    </category>
+    </category>-->
 
 </settings>
